@@ -84,3 +84,20 @@ func TestGetBoards_Populated(t *testing.T) {
 		}
 	}
 }
+
+func TestGetBoards_Unique(t *testing.T) {
+	boards, err := gochan.GetBoards()
+	if err != nil {
+		t.Fatalf("GetBoards() returned the error: %s", err)
+	}
+
+	boardExists := make(map[string]bool)
+
+	for _, board := range boards {
+		if boardExists[board.Board] {
+			t.Errorf("GetBoards() returned duplicate entry for /%s/", board.Board)
+		}
+
+		boardExists[board.Board] = true
+	}
+}
