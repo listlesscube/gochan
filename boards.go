@@ -1,7 +1,7 @@
 package gochan
 
 // Board is a description of a 4chan board. Board's fields are equivalent
-// to JSON returned by https://a.4chan.org/boards.json
+// to JSON returned by https://a.4cdn.org/boards.json
 type Board struct {
 	Board           string
 	Title           string
