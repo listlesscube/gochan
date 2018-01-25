@@ -9,8 +9,8 @@ import (
 type Board struct {
 	Board           string
 	Title           string
-	WSBoard         bool `json:"ws_board"`
-	PerPage         int  `json:"per_page"`
+	WSBoard         int `json:"ws_board"`
+	PerPage         int `json:"per_page"`
 	Pages           int
 	MaxFilesize     int `json:"max_filesize"`
 	MaxWebMFilesize int `json:"max_webm_filesize"`
@@ -24,10 +24,10 @@ type Board struct {
 		Images  int
 	}
 	MetaDescription string `json:"meta_description"`
-	IsArchived      bool   `json:"is_archived"`
+	IsArchived      int    `json:"is_archived"`
 }
 
-type boardJSON struct {
+type boardsJSON struct {
 	Boards []Board
 }
 
@@ -40,16 +40,12 @@ func GetBoards() ([]Board, error) {
 	}
 
 	decoder := json.NewDecoder(resp.Body)
-	_, err = decoder.Token()
+
+	var json boardsJSON
+	err = decoder.Decode(&json)
 	if err != nil {
 		return nil, err
 	}
 
-	var boards []Board
-	err = decoder.Decode(&boards)
-	if err != nil {
-		return nil, err
-	}
-
-	return boards, nil
+	return json.Boards, nil
 }
